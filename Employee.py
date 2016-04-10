@@ -13,19 +13,25 @@ class Employee:
         self.hours = 0
         self.rate = rate
 
-    def payment(self, hours):
+    def calculate_payment(self, hours):
 
-        if hours >= 60:
-            pay = self.rate * 40 + \
-                  1.5 * self.rate * 20 + \
-                  2 * self.rate * (hours - 60)
-        else:
-            if hours >= 40:
-                pay = self.rate * 40 + 1.5 * self.rate * (hours - 40)
-            else:
-                pay = self.rate * hours
+        # Set pay to rate * hours
+        pay = self.rate * hours
+
+        if hours > 40:
+            pay += 5 * (hours - 40)
+
+        if hours > 60:
+            pay += 5 * (hours - 60)
 
         return pay
+
+    def payment(self, hours):
+
+        if hours > 7 * 24 or hours < 0:
+            raise ValueError("%d is not in valid range." % hours)
+        else:
+            return self.calculate_payment(hours)
 
 if __name__ == "__main__":
 
@@ -36,3 +42,4 @@ if __name__ == "__main__":
     print(emp2.id)
 
     print(emp1.payment(100))
+    print(emp2.payment(7*25))
